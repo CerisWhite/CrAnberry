@@ -356,6 +356,44 @@ chown 655360 $wdir/new/system/xbin/busybox
 chgrp 655360 $wdir/new/system/xbin/busybox
 chmod 4755 $wdir/new/system/xbin/busybox
 
+# Now for the other stuff
+### Note: The Superuser APK cannot be installed into the system or the image will not work for some reason? ###
+
+cp $wdir/new/system/bin/sh $wdir/new/system/xbin/sugote-mksh
+chmod 0755 $wdir/new/system/xbin/sugote-mksh
+chcon u:object_r:system_file:s0 $wdir/new/system/xbin/sugote-mksh
+
+touch $wdir/new/system/etc/.installed_su_daemon
+chmod 0644 $wdir/new/system/etc/.installed_su_daemon
+chcon u:object_r:system_file:s0 $wdir/new/system/etc/.installed_su_daemon
+
+cp $wdir/supersu/common/install-recovery.sh $wdir/new/system/etc/install-recovery.sh
+chmod 0755 $wdir/new/system/etc/install-recovery.sh
+chown 655360 $wdir/new/system/etc/install-recovery.sh
+chgrp 655360 $wdir/new/system/etc/install-recovery.sh
+chcon u:object_r:toolbox_exec:s0 $wdir/new/system/etc/install-recovery.sh
+
+ln -s -r /etc/install-recovery.sh $wdir/new/system/bin/install-recovery.sh
+
+cp $wdir/supersu/common/install-recovery.sh $wdir/new/system/bin/daemonsu-service.sh
+chmod 0755 $wdir/new/system/bin/daemonsu-service.sh
+chown 655360 $wdir/new/system/bin/daemonsu-service.sh
+chgrp 657360 $wdir/new/system/bin/daemonsu-service.sh
+chcon u:object_r:toolbox_exec:s0 $wdir/new/system/bin/daemonsu-service.sh
+
+touch $wdir/new/init.super.rc
+echo "service daemonsu /system/bin/daemonsu-service.sh service
+    class late_start
+    user root
+    seclabel u:r:supersu:s0
+    oneshot" >>  $wdir/new/init.super.rc
+    
+chmod 0750 $wdir/new/init.super.rc
+chown 655360 $wdir/new/init.super.rc
+chgrp 657360 $wdir/new/init.super.rc
+    
+sed -i '7iimport /init.super.rc' $wdir/new/init.rc
+
 # Patching SELinux breaks things, so we have to be careful.
 
 if [ ! -e /usr/local/bak/policy.30.bak ]; then
