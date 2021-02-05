@@ -10,3 +10,8 @@ To use it locally, save the CrAnberry.sh file to your Downloads folder, then cop
 To use it online, copy and paste the following in crosh: <insert later when I'm not tired>
 
 Currently this script does not fully work. It can generate an Android image with `su` installed, but it does not grant root access from within the android container, even with SELinux set to Permissive. Still looking into this.
+
+
+# revert.sh
+
+This script will undo the changes done by Cranberry. Run it and then reboot to get your original android system without root back.
