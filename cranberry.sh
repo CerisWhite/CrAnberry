@@ -453,6 +453,8 @@ chown 655360 $wdir/new/sepolicy
 chgrp 655360 $wdir/new/sepolicy
 chcon u:object_r:rootfs:s0 $wdir/new/sepolicy
 
+rm -rf $bind_dir
+
 # and finally, symlink the new rootfs to the right place
 
 umount $wdir/new
