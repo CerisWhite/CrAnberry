@@ -23,14 +23,23 @@ This script will undo the changes done by Cranberry. Run it and then reboot to g
 
 The image will not be mounted Read-Write, like AROC did. As far as I know, changing the arc properties to mount the system read-write completely trashes the image for some reason. You can make changes to the image by removing the symlink, rebooting, mounting the image rw, making the changes, then replacing the symlink and rebooting again. This means things that need RW access to the system (like Xposed?) probably won't work.
 
+
 `sudo rm /opt/google/containers/android/system.raw.img`
+
 then reboot
+
 `mkdir /tmp/loop`
+
 `mount -o rw,loop,sync /usr/local/cranberry/system.rooted.img /tmp/loop`
+
 ... make changes ...
+
 `sudo umount /tmp/loop`
+
 `sudo ln -s /usr/local/cranberry/system.rooted.img /opt/google/containers/android/system.raw.img`
+
 and reboot again
+
 
 If someone can find a way to make a RW system work without having to totally recreate the rooted image, please let me know so I can update my information.
 
