@@ -83,7 +83,7 @@ mkdir -p $bind_dir/su
 mkdir $bind_dir/bin
 mkdir $bind_dir/lib
 mkdir $bind_dir/ext
-dd if=/dev/zero of=$wdir/cranberry.img bs=1 count=0 seek=2G
+dd if=/dev/zero of=$wdir/cranberry.img bs=1 count=0 seek=1G
 mkdir $wdir/original
 mkdir $wdir/new
 mkfs.ext4 $wdir/cranberry.img
