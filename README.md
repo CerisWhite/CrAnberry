@@ -11,6 +11,7 @@ Disclaimer 2: Right now, rooting requires SELinux must be set to permissive at a
 To use it locally, save the cranberry.sh file to your Downloads folder, then copy it to your `/usr/local/bin` folder, and run `sudo sh /usr/local/bin/cranberry.sh`
 
 To use it without downloading it, copy and paste the following in crosh: 
+
 `curl https://raw.githubusercontent.com/RennBurris/CrAnberry/main/cranberry.sh | sudo sh`
 
 This will generate an image at `/usr/local/cranberry` named "system.rooted.img" and symlink it to `/opt/google/containers/android/system.raw.img`
