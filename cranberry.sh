@@ -125,35 +125,42 @@ umount $wdir/original
 # Copying AROC here:
 
 if [ "$device_arch"="armv7l" ] || [ "$device_arch"="armv8l" ] || [ "$device_arch"="aarch64" ]; then
-    curl $busybox_arm_dl -o /usr/local/bin/busybox
     boxSizeCheck=$(stat -c %s /usr/local/bin/busybox)
     if [ "$boxSizeCheck" != 1079156 ]; then
-        echo "Busybox failed to download. Retrying.\n"
-        rm /usr/local/bin/busybox
         curl $busybox_arm_dl -o /usr/local/bin/busybox
         boxSizeCheck=$(stat -c %s /usr/local/bin/busybox)
         if [ "$boxSizeCheck" != 1079156 ]; then
-            echo "Failed to download again. Check your internet.\n"
+            echo "Busybox failed to download. Retrying.\n"
             rm /usr/local/bin/busybox
-            exit 1
+            curl $busybox_arm_dl -o /usr/local/bin/busybox
+            boxSizeCheck=$(stat -c %s /usr/local/bin/busybox)
+            if [ "$boxSizeCheck" != 1079156 ]; then
+                echo "Failed to download again. Check your internet.\n"
+                rm /usr/local/bin/busybox
+                cd /
+                exit 1
+            fi
         fi
     fi
     
 chmod +x /usr/local/bin/busybox
     
 elif [ "$device_arch"="x86" ] || [ "$device_arch"="x86_64" ]; then
-    curl $busybox_x86_dl -o /usr/local/bin/busybox
     boxSizeCheck=$(stat -c %s /usr/local/bin/busybox)
     if [ "$boxSizeCheck" != 935060 ]; then
-        echo "Busybox failed to download. Retrying.\n"
-        rm /usr/local/bin/busybox
         curl $busybox_x86_dl -o /usr/local/bin/busybox
         boxSizeCheck=$(stat -c %s /usr/local/bin/busybox)
         if [ "$boxSizeCheck" != 935060 ]; then
-            echo "Failed to download again. Check your internet.\n"
+            echo "Busybox failed to download. Retrying.\n"
             rm /usr/local/bin/busybox
-            cd /
-            exit 1
+            curl $busybox_x86_dl -o /usr/local/bin/busybox
+            boxSizeCheck=$(stat -c %s /usr/local/bin/busybox)
+            if [ "$boxSizeCheck" != 935060 ]; then
+                echo "Failed to download again. Check your internet.\n"
+                rm /usr/local/bin/busybox
+                cd /
+                exit 1
+            fi
         fi
     fi
      
@@ -168,21 +175,24 @@ if [ -e $wdir/supersu.zip ]; then
     rm $wdir/supersu.zip
 fi
 
-curl $android_su_dl -o $wdir/supersu/supersu.zip
 zipSizeCheck=$(stat -c %s $wdir/supersu/supersu.zip)
 if [ "$zipSizeCheck" != 6882992 ]; then
-    echo "File did not download correctly! Retrying.\n"
-    rm $wdir/supersu/supersu.zip
     curl $android_su_dl -o $wdir/supersu/supersu.zip
     zipSizeCheck=$(stat -c %s $wdir/supersu/supersu.zip)
     if [ "$zipSizeCheck" != 6882992 ]; then
-        echo "File failed to download again. Trying once more.\n"
+        echo "File did not download correctly! Retrying.\n"
         rm $wdir/supersu/supersu.zip
         curl $android_su_dl -o $wdir/supersu/supersu.zip
         zipSizeCheck=$(stat -c %s $wdir/supersu/supersu.zip)
         if [ "$zipSizeCheck" != 6882992 ]; then
-            echo "File failed to download 3 times. Check your internet.\n"
-            exit 1
+            echo "File failed to download again. Trying once more.\n"
+            rm $wdir/supersu/supersu.zip
+            curl $android_su_dl -o $wdir/supersu/supersu.zip
+            zipSizeCheck=$(stat -c %s $wdir/supersu/supersu.zip)
+            if [ "$zipSizeCheck" != 6882992 ]; then
+                echo "File failed to download 3 times. Check your internet.\n"
+                exit 1
+            fi
         fi
     fi
 echo "Unzipping SuperSU...\n"
@@ -355,44 +365,6 @@ cp /usr/local/bin/busybox $wdir/new/system/xbin/busybox
 chown 655360 $wdir/new/system/xbin/busybox
 chgrp 655360 $wdir/new/system/xbin/busybox
 chmod 4755 $wdir/new/system/xbin/busybox
-
-# Now for the other stuff
-### Note: The Superuser APK cannot be installed into the system or the image will not work for some reason? ###
-
-cp $wdir/new/system/bin/sh $wdir/new/system/xbin/sugote-mksh
-chmod 0755 $wdir/new/system/xbin/sugote-mksh
-chcon u:object_r:system_file:s0 $wdir/new/system/xbin/sugote-mksh
-
-touch $wdir/new/system/etc/.installed_su_daemon
-chmod 0644 $wdir/new/system/etc/.installed_su_daemon
-chcon u:object_r:system_file:s0 $wdir/new/system/etc/.installed_su_daemon
-
-cp $wdir/supersu/common/install-recovery.sh $wdir/new/system/etc/install-recovery.sh
-chmod 0755 $wdir/new/system/etc/install-recovery.sh
-chown 655360 $wdir/new/system/etc/install-recovery.sh
-chgrp 655360 $wdir/new/system/etc/install-recovery.sh
-chcon u:object_r:toolbox_exec:s0 $wdir/new/system/etc/install-recovery.sh
-
-ln -s -r /etc/install-recovery.sh $wdir/new/system/bin/install-recovery.sh
-
-cp $wdir/supersu/common/install-recovery.sh $wdir/new/system/bin/daemonsu-service.sh
-chmod 0755 $wdir/new/system/bin/daemonsu-service.sh
-chown 655360 $wdir/new/system/bin/daemonsu-service.sh
-chgrp 657360 $wdir/new/system/bin/daemonsu-service.sh
-chcon u:object_r:toolbox_exec:s0 $wdir/new/system/bin/daemonsu-service.sh
-
-touch $wdir/new/init.super.rc
-echo "service daemonsu /system/bin/daemonsu-service.sh service
-    class late_start
-    user root
-    seclabel u:r:supersu:s0
-    oneshot" >>  $wdir/new/init.super.rc
-    
-chmod 0750 $wdir/new/init.super.rc
-chown 655360 $wdir/new/init.super.rc
-chgrp 657360 $wdir/new/init.super.rc
-    
-sed -i '7iimport /init.super.rc' $wdir/new/init.rc
 
 # Patching SELinux breaks things, so we have to be careful.
 
