@@ -6,7 +6,7 @@ After update v77 of ChromeOS, the android subsystem was updated to version 9 (or
 Disclaimer: I am not responsible for any damage caused by this script. Always back up your data (or don't, it's your device)
 Disclaimer 2: Right now, rooting requires SELinux must be set to permissive at all times. This is *extremely* insecure, and as such, you should only run code you absolutely trust using this (but you should have known that anyways).
 
-# CrAnberry
+# cranberry.sh
 
 To use it locally, save the cranberry.sh file to your Downloads folder, then copy it to your `/usr/local/bin` folder, and run `sudo sh /usr/local/bin/cranberry.sh`
 
