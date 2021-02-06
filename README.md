@@ -34,4 +34,4 @@ and reboot again
 
 If someone can find a way to make a RW system work without having to totally recreate the rooted image, please let me know so I can update my information.
 
-Again: This currently requires SELinux to be set to Permissive at all times. This is very insecure and dangerous. There's also no SU Manager installed per this method as my testing so far has shown that it breaks the image, but I will probably (not) look into it again later on. You should be safe to install any SU Manager of your choice out of the Play Store.
+Again: This currently requires SELinux to be set to Permissive at all times. This is very insecure and dangerous. There's also no SU Manager installed per this method as my testing so far has shown that it breaks the image, but I will probably (not) look into it again later on. You should be safe to install any SU Manager of your choice.
