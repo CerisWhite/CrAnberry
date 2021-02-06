@@ -12,6 +12,7 @@ if [ -e /opt/google/containers/android/system.original.img ]; then
     
     rm -rf /usr/local/bak
     rm -rf /usr/local/cranberry
+    rm /etc/init/unforce.conf
     
     echo "Now reboot and everything will be right as rain!\n"
     
@@ -20,6 +21,7 @@ else
     
     rm -rf /usr/local/bak
     rm -rf /usr/local/cranberry
+    rm /etc/init/unforce.conf
     
     echo "All done.\n"
 
