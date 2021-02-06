@@ -404,7 +404,7 @@ chgrp 657360 $wdir/new/init.super.rc
     
 sed -i '7iimport /init.super.rc' $wdir/new/init.rc
 
-# Patching SELinux breaks things, so we have to be careful.
+# SELinux is super picky, so we have to disable it entirely for this to work
 
 if [ ! -e /usr/local/bak/policy.30.bak ]; then
     cp /etc/selinux/arc/policy/policy.30 /usr/local/bak/policy.30.bak
@@ -421,6 +421,15 @@ fi
 if [ ! -e /usr/share/arc-setup/config.json.bak ]; then
     cp /usr/share/arc-setup/config.json /usr/share/arc-setup/config.json.bak
 fi
+
+echo 'description   "Disable SELinux for CrAnberry"' > /etc/init/unforce.conf
+echo 'author        "Renn Burris"' >> /etc/init/unforce.conf
+echo " " >> /etc/init/unforce.conf
+echo 'start on starting boot-services' >> /etc/init/unforce.conf
+echo 'task' >> /etc/init/unforce.conf
+echo 'script' >> /etc/init/unforce.conf
+echo 'setenforce 0' >> /etc/init/unforce.conf
+echo 'end script' >> /etc/init/unforce.conf
 
 ### EDITING THE config.json TO MOUNT THE SYSTEM AS RW WILL PERMANENTLY BREAK 9.0 SYSTEM IMAGES. DON'T DO IT. ###
 echo "Do NOT edit /usr/share/arc-setup/config.json. Making changes to this file will permanently trash your new image.\nIf you want to make changes to your system, remove the symlink, reboot, and mount it as a loop device using\n\"mount -o loop,rw,sync /usr/local/cranberry/system.rooted.img /usr/local/cranberry/new\"\n"
