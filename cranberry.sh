@@ -423,7 +423,7 @@ if [ ! -e /usr/share/arc-setup/config.json.bak ]; then
 fi
 
 echo 'description   "Disable SELinux for CrAnberry"' > /etc/init/unforce.conf
-echo 'author        "Renn Burris"' >> /etc/init/unforce.conf
+echo 'author        "Ceris White"' >> /etc/init/unforce.conf
 echo " " >> /etc/init/unforce.conf
 echo 'start on starting boot-services' >> /etc/init/unforce.conf
 echo 'task' >> /etc/init/unforce.conf
