@@ -41,14 +41,14 @@ then reboot
 
 and reboot again
 
-
+# Closing Notes
 If someone can find a way to make a RW system work, please let me know so I can update my information. As of right now, what I know is:
 
 A) Setting the init.rc to mount the system rw causes the image to not load, but it can be undone using the process above.
 
 B) Setting the system to mount rw in config.json makes the image unmountable and requires you to create a completely fresh image
 
-
+# IMPORTANT
 Because the system cannot be mounted read-write, things that want to patch the system (Lucky Patcher android patches, Xposed, etc.) will not work. Other root apps (GameGuardian, SB Game Hacker) will work just fine, though!
 
 Again: This currently requires SELinux to be set to Permissive at all times. This is very insecure and dangerous. There's also no SU Manager installed in the system per this method as my testing so far has shown that it breaks the image, but I will probably (not) look into it again later on. Installing an SU manager also doesn't work as it requires the system to be read-write to update the su files. Be very very careful about what code you run on your machine.
