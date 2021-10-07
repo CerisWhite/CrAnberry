@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 if ( ! test -z {,} ); then
     echo "script must be run using sudo bash"
