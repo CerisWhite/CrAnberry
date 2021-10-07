@@ -52,3 +52,5 @@ B) Setting the system to mount rw in config.json makes the image unmountable and
 Because the system cannot be mounted read-write, things that want to patch the system (Lucky Patcher android patches, Xposed, etc.) will not work. Other root apps (GameGuardian, SB Game Hacker) will work just fine, though!
 
 Again: This currently requires SELinux to be set to Permissive at all times. This is very insecure and dangerous. There's also no SU Manager installed in the system per this method as my testing so far has shown that it breaks the image, but I will probably (not) look into it again later on. Installing an SU manager also doesn't work as it requires the system to be read-write to update the su files. Be very very careful about what code you run on your machine.
+
+If you have any questions (or don't want to open a public issue), you can find me on Discord (Ceris#2530).
