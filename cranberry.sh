@@ -1,4 +1,9 @@
-#!/bin/sh
+#!/bin/bash
+
+if ( ! test -z {,} ); then
+    echo "script must be run using sudo bash"
+    exit 1
+fi
 
 if [ "$(id -u)" != '0' ]; then
     echo "Run this script as root!\n"
@@ -20,29 +25,38 @@ touch /etc/cranberry-test
 sleep 0.5
 
 if [ ! -e "/etc/cranberry-test" ]; then
-    echo "Your rootfs doesn't seem to be writable. Make sure you run\nsudo /usr/share/vboot/bin/make_dev_ssd.sh --remove_rootfs_verification --partitions 2\nbefore you run this script.\n"
+    echo "Your rootfs doesn't seem to be writable. Make sure you run"
+    echo "sudo /usr/share/vboot/bin/make_dev_ssd.sh --remove_rootfs_verification --partitions 2"
+    echo "before you run this script."
+    echo " "
     exit 1
 fi
 
 rm /etc/cranberry-test
 
 if [ -L "/opt/google/containers/android/system.raw.img" ]; then
-    echo "System Image already replaced with symlink?\n"
+    echo "System Image already replaced with symlink?"
+    echo " "
     rm /opt/google/containers/android/system.raw.img
     if [ -e "/opt/google/containers/android/system.original.img" ]; then
-        echo "Has CrAnberry already been run? No problem. I can correct it.\n"
+        echo "Has CrAnberry already been run? No problem. I can correct it."
+        echo " "
         rm /opt/google/containers/android/system.raw.img
         mv /opt/google/containers/android/system.original.img /opt/google/containers/android/system.raw.img
 
     else
-        echo "There's a symlink in place for the android image, but no original image to work with?\nGet a copy of your device's system.raw.img and put it in \"/opt/google/containers/android/\"\n"
+        echo "There's a symlink in place for the android image, but no original image to work with?"
+        echo "Get a copy of your device's system.raw.img and put it in \"/opt/google/containers/android/\""
+        echo " "
         rm /opt/google/containers/android/system.raw.img
         exit 1
     fi
     
 elif [ -e "/opt/google/containers/android/system.original.img" ]; then
     if [ ! -e "$android_rootfs/android-data/data/app" ]; then
-        echo "Android Container not running after what seems like a previous attempt.\nReboot before running this script again.\n"
+        echo "Android Container not running after what seems like a previous attempt."
+        echo "Reboot before running this script again.\n"
+        echo " "
         mv /opt/google/containers/android/system.original.img /opt/google/containers/android/system.raw.img
         exit 1
     else 
@@ -51,10 +65,12 @@ elif [ -e "/opt/google/containers/android/system.original.img" ]; then
     
 elif [ ! -e "/opt/google/containers/android/system.raw.img" ]; then
     echo "No android system image present in /opt/google/containers/android/"
+    echo " "
     exit 1
         
 elif [ ! -e "$android_rootfs/android-data/data/app" ]; then
     echo "Android subsystem does not appear to be active."
+    echo " "
     exit 1;
     
 fi
@@ -108,15 +124,19 @@ mount -o loop,ro /opt/google/containers/android/system.original.img $wdir/origin
 setenforce 0
 secon=$(getenforce)
 if [ "$secon"="Permissive" ]; then
-    echo "SELinux set to Permissive.\n"
+    echo "SELinux set to Permissive."
+    echo " "
 else
-    echo "SELinux failed to change to Permissive.\n"
+    echo "SELinux failed to change to Permissive."
+    echo " "
     exit 1
 fi
 
 # Attempt to copy the files into the new image
 
-echo "Copying files into new android image\nErrors about acct, dev, or oem are normal\n"
+echo "Copying files into new android image"
+echo "Errors about acct, dev, or oem are normal"
+echo " "
 
 cp -ar $wdir/original/* $wdir/new/
 mkdir $wdir/new/acct
@@ -136,12 +156,14 @@ if [ "$device_arch"="armv7l" ] || [ "$device_arch"="armv8l" ] || [ "$device_arch
         /usr/bin/curl $busybox_arm_dl -o /usr/local/bin/busybox
         boxSizeCheck=$(stat -c %s /usr/local/bin/busybox)
         if [ "$boxSizeCheck" != 1079156 ]; then
-            echo "Busybox failed to download. Retrying.\n"
+            echo "Busybox failed to download. Retrying."
+            echo " "
             rm /usr/local/bin/busybox
             /usr/bin/curl $busybox_arm_dl -o /usr/local/bin/busybox
             boxSizeCheck=$(stat -c %s /usr/local/bin/busybox)
             if [ "$boxSizeCheck" != 1079156 ]; then
-                echo "Failed to download again. Check your internet.\n"
+                echo "Failed to download again. Check your internet."
+                echo " "
                 rm /usr/local/bin/busybox
                 cd /
                 exit 1
@@ -155,12 +177,14 @@ elif [ "$device_arch"="x86" ] || [ "$device_arch"="x86_64" ]; then
         /usr/bin/curl $busybox_x86_dl -o /usr/local/bin/busybox
         boxSizeCheck=$(stat -c %s /usr/local/bin/busybox)
         if [ "$boxSizeCheck" != 935060 ]; then
-            echo "Busybox failed to download. Retrying.\n"
+            echo "Busybox failed to download. Retrying."
+            echo " "
             rm /usr/local/bin/busybox
             /usr/bin/curl $busybox_x86_dl -o /usr/local/bin/busybox
             boxSizeCheck=$(stat -c %s /usr/local/bin/busybox)
             if [ "$boxSizeCheck" != 935060 ]; then
-                echo "Failed to download again. Check your internet.\n"
+                echo "Failed to download again. Check your internet."
+                echo " "
                 rm /usr/local/bin/busybox
                 cd /
                 exit 1
@@ -169,14 +193,16 @@ elif [ "$device_arch"="x86" ] || [ "$device_arch"="x86_64" ]; then
     fi
           
 else
-    echo "Unrecognized device arch $device_arch\n"
+    echo "Unrecognized device arch $device_arch"
+    echo " "
     exit 1
 fi
 
 if [ -e /usr/local/bin/busybox ]; then
     chmod +x /usr/local/bin/busybox
 else
-    echo "Busybox is missing???\n"
+    echo "Busybox is missing???"
+    echo " "
     exit 1
 fi
 
@@ -189,23 +215,27 @@ if [ "$zipSizeCheck" != 6882992 ]; then
     /usr/bin/curl $android_su_dl -o $wdir/supersu/supersu.zip
     zipSizeCheck=$(stat -c %s $wdir/supersu/supersu.zip)
     if [ "$zipSizeCheck" != 6882992 ]; then
-        echo "File did not download correctly! Retrying.\n"
+        echo "File did not download correctly! Retrying."
+        echo " "
         rm $wdir/supersu/supersu.zip
         /usr/bin/curl $android_su_dl -o $wdir/supersu/supersu.zip
         zipSizeCheck=$(stat -c %s $wdir/supersu/supersu.zip)
         if [ "$zipSizeCheck" != 6882992 ]; then
-            echo "File failed to download again. Trying once more.\n"
+            echo "File failed to download again. Trying once more."
+            echo " "
             rm $wdir/supersu/supersu.zip
             /usr/bin/curl $android_su_dl -o $wdir/supersu/supersu.zip
             zipSizeCheck=$(stat -c %s $wdir/supersu/supersu.zip)
             if [ "$zipSizeCheck" != 6882992 ]; then
-                echo "File failed to download 3 times. Check your internet.\n"
+                echo "File failed to download 3 times. Check your internet."
+                echo " "
                 exit 1
             fi
         fi
     fi
     
-echo "Unzipping SuperSU...\n"
+echo "Unzipping SuperSU..."
+echo " "
 cd $wdir/supersu/
 /usr/local/bin/busybox unzip -o $wdir/supersu/supersu.zip
 cd $wdir
@@ -215,7 +245,7 @@ sleep 2
 
 # Now we take the necessary files and set the appropriate permissions...
 
-echo "Installing SU.\n"
+echo "Installing SU."
 
 if [ "$device_arch"="armv7l" ] || [ "$device_arch"="armv8l" ] || [ "$device_arch"="aarch64" ]; then
     cp $wdir/supersu/armv7/su $wdir/new/system/xbin/su
@@ -365,7 +395,8 @@ elif [ "$device_arch"="x86" ] || [ "$device_arch"="x86_64" ]; then
     chcon u:object_r:system_file:s0 $bind_dir/lib/libsupol.so
 
 else 
-    echo "How did you even get here? Unknown arch!\n"
+    echo "How did you even get here? Unknown arch!"
+    echo " "
     exit 1
 fi
 
@@ -442,12 +473,16 @@ echo 'setenforce 0' >> /etc/init/unforce.conf
 echo 'end script' >> /etc/init/unforce.conf
 
 ### EDITING THE config.json TO MOUNT THE SYSTEM AS RW WILL PERMANENTLY BREAK 9.0 SYSTEM IMAGES. DON'T DO IT. ###
-echo "Do NOT edit /usr/share/arc-setup/config.json. Making changes to this file will permanently trash your new image.\nIf you want to make changes to your system, remove the symlink, reboot, and mount it as a loop device using\n\"mount -o loop,rw,sync /usr/local/cranberry/system.rooted.img /usr/local/cranberry/new\"\n"
+echo "Do NOT edit /usr/share/arc-setup/config.json. Making changes to this file will permanently trash your new image."
+echo "If you want to make changes to your system, remove the symlink, reboot, and mount it as a loop device using"
+echo "\"mount -o loop,rw,sync /usr/local/cranberry/system.rooted.img /usr/local/cranberry/new\""
+echo " "
 
 cp -ar $android_rootfs/root/system/lib/* $bind_dir/lib/
 cp -ar $android_rootfs/root/sbin/* $bind_dir/bin/
 
-echo "Patching SELinux. Android apps will stop working until reboot.\n"
+echo "Patching SELinux. Android apps will stop working until reboot."
+echo " "
 
 cp /etc/selinux/arc/policy/policy.30 /home/chronos/user/Downloads/policy.30
 
@@ -471,5 +506,6 @@ umount $wdir/new
 mv $wdir/cranberry.img $wdir/system.rooted.img
 ln -s /usr/local/cranberry/system.rooted.img /opt/google/containers/android/system.raw.img
 
-echo "Reboot and enjoy!\n"
+echo "Reboot and enjoy!"
+echo " "
 exit 0
