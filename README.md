@@ -18,7 +18,9 @@ This will generate an image at `/usr/local/cranberry` named "system.rooted.img" 
 
 # revert.sh
 
-This script will undo the changes done by Cranberry. Run it and then reboot to get your original android system without root back.
+This script will undo the changes done by Cranberry. Run it and then reboot to get your original android system without root back. It can be run exactly as above:
+
+`curl https://raw.githubusercontent.com/CerisWhite/CrAnberry/main/revert.sh | sudo sh`
 
 # Notes
 
