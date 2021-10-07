@@ -1,10 +1,5 @@
 #!/bin/sh
 
-if ( ! test -z {,} ); then
-    echo "Script not run using sudo bash."
-    exit 1
-fi
-
 if [ "$(id -u)" != '0' ]; then
     echo "Run this script as root!\n"
     exit 1
