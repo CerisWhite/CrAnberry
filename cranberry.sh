@@ -237,7 +237,7 @@ if [ "$zipSizeCheck" != 6882992 ]; then
 echo "Unzipping SuperSU..."
 echo " "
 cd $wdir/supersu/
-/usr/local/bin/busybox unzip -o $wdir/supersu/supersu.zip
+/usr/local/bin/busybox unzip -o $wdir/supersu/supersu.zip &> /dev/null
 cd $wdir
 fi
 
@@ -499,6 +499,7 @@ chgrp 655360 $wdir/new/sepolicy
 chcon u:object_r:rootfs:s0 $wdir/new/sepolicy
 
 rm -rf $bind_dir
+rm -rf $wdir/supersu
 
 # and finally, symlink the new rootfs to the right place
 
