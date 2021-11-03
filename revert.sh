@@ -17,8 +17,22 @@ if [ -e /opt/google/containers/android/system.original.img ]; then
     fi
     
     rm -rf /usr/local/bak
+    
+    if [ -e /usr/local/cranberry/new/init.rc ]; then
+        echo "Image is mounted on /usr/local/cranberry/new/"
+        echo "Please reboot after running cranberry or unmount the image to prevent this from causing damage."
+        exit 1
+    fi
+    
+    if [ -e /usr/local/cranberry/original/init.rc ]; then
+        echo "Image is mounted on /usr/local/cranberry/original/"
+        echo "Please reboot after running cranberry or unmount the image manually."
+        exit 1
+    fi
+    
     rm -rf /usr/local/cranberry
     rm /etc/init/unforce.conf
+    rm /usr/local/bin/busybox
     
     echo "Now reboot and everything will be right as rain!"
     echo " "
@@ -30,6 +44,7 @@ else
     rm -rf /usr/local/bak
     rm -rf /usr/local/cranberry
     rm /etc/init/unforce.conf
+    rm /usr/local/bin/busybox
     
     echo "All done."
     echo " "
