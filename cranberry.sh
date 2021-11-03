@@ -501,6 +501,8 @@ chcon u:object_r:rootfs:s0 $wdir/new/sepolicy
 rm -rf $bind_dir
 rm -rf $wdir/supersu
 rm -rf /usr/local/bin/busybox
+rm /home/chronos/user/Downloads/policy.30
+rm /home/chronos/user/Downloads/policy.30_new
 
 # and finally, symlink the new rootfs to the right place
 
