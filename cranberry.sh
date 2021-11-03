@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 if ( ! test -z {,} ); then
     echo "script must be run using sudo bash"
@@ -150,7 +150,7 @@ umount $wdir/original
 
 # Copying AROC here:
 
-if [ "$device_arch"="armv7l" ] || [ "$device_arch"="armv8l" ] || [ "$device_arch"="aarch64" ]; then
+if [[ "$device_arch" == "armv7l" ]] || [[ "$device_arch" == "armv8" ]] || [[ "$device_arch" == "aarch64" ]]; then
     boxSizeCheck=$(stat -c %s /usr/local/bin/busybox)
     if [ "$boxSizeCheck" != 1079156 ]; then
         /usr/bin/curl $busybox_arm_dl -o /usr/local/bin/busybox
@@ -171,7 +171,7 @@ if [ "$device_arch"="armv7l" ] || [ "$device_arch"="armv8l" ] || [ "$device_arch
         fi
     fi
         
-elif [ "$device_arch"="x86" ] || [ "$device_arch"="x86_64" ]; then
+elif [[ "$device_arch" == "x86" ]] || [[ "$device_arch" == "x86_64" ]]; then
     boxSizeCheck=$(stat -c %s /usr/local/bin/busybox)
     if [ "$boxSizeCheck" != 935060 ]; then
         /usr/bin/curl $busybox_x86_dl -o /usr/local/bin/busybox
@@ -247,7 +247,7 @@ sleep 2
 
 echo "Installing SU."
 
-if [ "$device_arch"="armv7l" ] || [ "$device_arch"="armv8l" ] || [ "$device_arch"="aarch64" ]; then
+if [[ "$device_arch" == "armv7l" ]] || [[ "$device_arch" == "armv8" ]] || [[ "$device_arch" == "aarch64" ]]; then
     cp $wdir/supersu/armv7/su $wdir/new/system/xbin/su
     cp $wdir/supersu/armv7/su $wdir/new/system/xbin/daemonsu
     cp $wdir/supersu/armv7/su $wdir/new/system/xbin/sugote
@@ -321,7 +321,7 @@ if [ "$device_arch"="armv7l" ] || [ "$device_arch"="armv8l" ] || [ "$device_arch
     chcon u:object_r:system_file:s0 $bind_dir/lib/libsupol.so
     
 
-elif [ "$device_arch"="x86" ] || [ "$device_arch"="x86_64" ]; then
+elif [[ "$device_arch" == "x86" ]] || [[ "$device_arch" == "x86_64" ]]; then
     cp $wdir/supersu/x86/su.pie $wdir/new/system/xbin/su
     cp $wdir/supersu/x86/su.pie $wdir/new/system/xbin/daemonsu
     cp $wdir/supersu/x86/su.pie $wdir/new/system/xbin/sugote
@@ -500,6 +500,7 @@ chcon u:object_r:rootfs:s0 $wdir/new/sepolicy
 
 rm -rf $bind_dir
 rm -rf $wdir/supersu
+rm -rf /usr/local/bin/busybox
 
 # and finally, symlink the new rootfs to the right place
 
