@@ -4,6 +4,7 @@ Rooting the ChromeOS Android Subsystem post v77
 After update v77 of ChromeOS, the android subsystem was updated to version 9 (Pie) and nolirium's [aroc project](https://github.com/nolirium/aroc) no longer worked. This is a script heavily inspired by their initial work, but much more straightforward and easy to read.
 
 Disclaimer: I am not responsible for any damage caused by this script. Always back up your data (or don't, it's your device)
+
 Disclaimer 2: Right now, rooting requires SELinux must be set to permissive at all times. This is *extremely* insecure, and as such, you should only run code you absolutely trust using this (but you should have known that anyways).
 
 ### cranberry.sh
