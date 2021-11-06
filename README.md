@@ -8,9 +8,9 @@ Disclaimer 2: Right now, rooting requires SELinux must be set to permissive at a
 
 # cranberry.sh
 
-To use it locally, save the cranberry.sh file to your Downloads folder, then copy it to your `/usr/local/bin` folder, and run `sudo bash /usr/local/bin/cranberry.sh`
+To use it locally, save the cranberry.sh file to your Downloads folder, then copy it to your `/usr/local/bin` directory, and run `sudo bash /usr/local/bin/cranberry.sh`
 
-To use it without downloading it, copy and paste the following in crosh: 
+To use it directly, copy and paste the following in crosh: 
 
 `curl https://raw.githubusercontent.com/CerisWhite/CrAnberry/main/cranberry.sh | sudo bash`
 
@@ -24,7 +24,8 @@ This script will undo the changes done by Cranberry. Run it and then reboot to g
 
 # Notes
 
-The image will not be mounted Read-Write, like AROC did. Changing the arc properties to mount the system read-write completely trashes the image for some reason. You can make changes to the image by removing the symlink, rebooting, mounting the image rw, making the changes, then replacing the symlink and rebooting again, like so:
+The image will not be mounted Read-Write, like AROC did. With Android 9, it's impossible to mount an image read-write period. While you can change the config.json to tell it to mount the image read-write, the directory `/opt/google/containers/android/rootfs/root` will remain read-only regardless and cannot be remounted rw.
+You can make changes to a cranberry image by removing the symlink, rebooting, mounting the image manually, making the changes, then replacing the symlink and rebooting again, like so:
 
 
 `sudo rm /opt/google/containers/android/system.raw.img`
@@ -48,7 +49,7 @@ If someone can find a way to make a RW system work, please let me know so I can 
 
 A) Setting the init.rc to mount the system rw causes the image to not load, but it can be undone using the process above.
 
-B) Setting the system to mount rw in config.json makes the image unmountable and requires you to create a completely fresh image
+B) Setting the system to mount rw in config.json will allow a clean image to mount properly, but still be read-only, while it will completely trash cranberry images. A trashed image cannot be salvaged and will need to be recreated.
 
 # IMPORTANT
 Because the system cannot be mounted read-write, things that want to patch the system (Lucky Patcher android patches, Xposed, etc.) will not work. Other root apps (GameGuardian, SB Game Hacker) will work just fine, though!
