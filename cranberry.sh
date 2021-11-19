@@ -27,7 +27,7 @@ sleep 0.5
 if [ ! -e "/etc/cranberry-test" ]; then
     echo "Your rootfs doesn't seem to be writable. Make sure you run"
     echo "sudo /usr/share/vboot/bin/make_dev_ssd.sh --remove_rootfs_verification --partitions 2"
-    echo "before you run this script."
+    echo "and reboot before you run this script."
     echo " "
     exit 1
 fi
