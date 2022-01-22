@@ -1,6 +1,8 @@
 # CrAnberry
 Rooting the ChromeOS Android Subsystem post v77
 
+**WARNING: The Android Subsystem in newer versions of ChromeOS seems to have been updated to Android 10, and this script may not work anymore. I do not have a recent device with access to the subsystem, so please open an issue and we can work on it together if this is the case!!**
+
 After update v77 of ChromeOS, the android subsystem was updated to version 9 (Pie) and nolirium's [aroc project](https://github.com/nolirium/aroc) no longer worked. This is a script heavily inspired by their initial work, but much more straightforward and easy to read.
 
 Disclaimer: I am not responsible for any damage caused by this script. Always back up your data (or don't, it's your device)
