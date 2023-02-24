@@ -8,10 +8,11 @@ be held liable for any damages arising from the use of this software.
 Permission is granted to anyone to use this software for any purpose, including commercial applications,
 and to alter it and redistribute it freely, subject to the following restrictions:
 
-1. 	The origin of this software must not be misrepresented; Only the original copyright holder may claim 
-	they wrote the original software. Redistributions of this software in source and binary forms must reproduce
-	the logo(s) used by the original copyright holder, if applicable, as well as a link to the original source
-	repository or homepage of the project, if applicable, in the software and/or its documentation.
+1. 	The origin of this software must not be misrepresented; Only the original copyright holder may claim
+	they wrote the original software. Redistributions of this software in source and binary forms,
+	altered or not, must reproduce the logo(s) used by the original copyright holder, if applicable, as
+	well as a link to the original source repository or homepage of the project, if applicable, in the
+	software and/or its documentation.
 
 2. 	Altered source code or binaries must be plainly marked as such, and must not be misrepresented as being
 	the original software.
