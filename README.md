@@ -1,7 +1,10 @@
 # CrAnberry
 Rooting the ChromeOS Android Subsystem post v77
 
-**WARNING: The Android Subsystem in newer versions of ChromeOS seems to have been updated to Android 10, and this script may not work anymore. I do not have a recent device with access to the subsystem, so please open an issue and we can work on it together if this is the case!!**
+~~**WARNING: The Android Subsystem in newer versions of ChromeOS seems to have been updated to Android 10, and this script may not work anymore. I do not have a recent device with access to the subsystem, so please open an issue and we can work on it together if this is the case!!**~~
+
+**If you have a Chromebook with Android 11 (aka ARCVM), then you can use [[Tutorial]: Root your ChromeOS Android subsystem (Android 11+)
+](https://www.reddit.com/r/chromeos/comments/14bwi9r/tutorial_root_your_chromeos_android_subsystem/).**
 
 After update v77 of ChromeOS, the android subsystem was updated to version 9 (Pie) and nolirium's [aroc project](https://github.com/nolirium/aroc) no longer worked. This is a script heavily inspired by their initial work, but much more straightforward and easy to read.
 
